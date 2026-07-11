@@ -11,6 +11,12 @@ gsap.registerPlugin(ScrollTrigger)
  */
 export function useSmoothScroll() {
   useEffect(() => {
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches
+      || "ontouchstart" in window
+
+    // Native touch scrolling is smoother than a JS scroll loop on phones.
+    if (isTouchDevice) return
+
     const lenis = new Lenis({
       duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
