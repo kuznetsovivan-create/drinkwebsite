@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { useSmoothScroll } from "./hooks/useSmoothScroll"
 
@@ -44,12 +44,14 @@ const coffeeCities = [
   { name: "Алматы", count: 3, x: 72.96, y: 31.98 },
   { name: "Дубай", count: 5, x: 66.54, y: 44.63 },
 ]
-const coffeeShopsTotal = coffeeCities.reduce((sum, city) => sum + city.count, 0)
 
 // отдельная точка вне сети — независимый проект, показывается серым
 const independentPoint = { name: "Лос-Анджелес", label: "Независимый проект", x: 14.98, y: 38.64 }
 
-const mapNotes = ["95+ кофеен на этапе строительства", "5 стран"]
+const mapNotes = [
+  { value: 95, suffix: "+", label: "кофеен на этапе строительства" },
+  { value: 5, suffix: "", label: "стран" },
+]
 
 const tickerItems = ["быстрее очереди", "точно как любишь", "кофе уже ждёт"]
 
@@ -340,7 +342,7 @@ export default function App() {
         <section className="builder section-pad" id="собрать">
           <div className="builder-heading">
             <p className="eyebrow">03 / собери свой</p>
-            <h2>один латте.<br /><span>9 216</span> вариантов.</h2>
+            <h2>один латте.<br /><span><CountUp to={9216} /></span> вариантов.</h2>
           </div>
 
           <div className="builder-stage">
@@ -420,13 +422,10 @@ export default function App() {
               </button>
 
               <div className="map-notes" aria-label="Планы роста">
-                {mapNotes.map((note) => <span key={note}>{note}</span>)}
+                {mapNotes.map((note) => (
+                  <span key={note.label}><CountUp to={note.value} suffix={note.suffix} /> {note.label}</span>
+                ))}
               </div>
-            </div>
-
-            <div className="coffee-map-stats">
-              <div><strong>{coffeeCities.length}</strong> городов</div>
-              <div><strong>{coffeeShopsTotal}+</strong> кофеен уже работает</div>
             </div>
           </div>
         </section>
@@ -460,4 +459,38 @@ export default function App() {
       </footer>
     </div>
   )
+}
+
+function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
+  const [value, setValue] = useState(0)
+  const ref = useRef<HTMLSpanElement>(null)
+
+  useEffect(() => {
+    const node = ref.current
+    if (!node) return
+
+    let frame = 0
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return
+
+      const startedAt = performance.now()
+      const tick = (now: number) => {
+        const progress = Math.min((now - startedAt) / 1200, 1)
+        const eased = 1 - Math.pow(1 - progress, 3)
+        setValue(Math.round(to * eased))
+        if (progress < 1) frame = requestAnimationFrame(tick)
+      }
+
+      frame = requestAnimationFrame(tick)
+      observer.disconnect()
+    }, { threshold: 0.35 })
+
+    observer.observe(node)
+    return () => {
+      observer.disconnect()
+      cancelAnimationFrame(frame)
+    }
+  }, [to])
+
+  return <span ref={ref}>{new Intl.NumberFormat("ru-RU").format(value)}{suffix}</span>
 }
