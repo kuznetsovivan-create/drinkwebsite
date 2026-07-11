@@ -2,27 +2,29 @@ import { useState } from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { useSmoothScroll } from "./hooks/useSmoothScroll"
 
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`
+
 const drinks = [
   {
     name: "Клубника / матча",
     note: "матча · клубничная пена · овсяное молоко",
     number: "01",
     className: "drink-card--matcha",
-    image: "/media/drink-matcha.webp",
+    image: asset("media/drink-matcha.webp"),
   },
   {
     name: "Кокос / эспрессо",
     note: "двойной эспрессо · кокосовая вода · лёд",
     number: "02",
     className: "drink-card--coconut",
-    image: "/media/drink-coconut.webp",
+    image: asset("media/drink-coconut.webp"),
   },
   {
     name: "Карамель / сырная пена",
     note: "айс латте · солёная карамель · фирменная пена",
     number: "03",
     className: "drink-card--caramel",
-    image: "/media/drink-caramel.webp",
+    image: asset("media/drink-caramel.webp"),
   },
 ]
 
@@ -136,7 +138,7 @@ export default function App() {
     <div className="site-shell">
       <header className="topbar">
         <a className="brand" href="#начало" aria-label="Дринкит — на главную">
-          <img className="brand-logo" src="/drinkit-logo.png" alt="" />
+          <img className="brand-logo" src={asset("drinkit-logo.png")} alt="" />
           <span>дринкит</span>
         </a>
         <nav className="nav-links" aria-label="Основная навигация">
@@ -207,7 +209,7 @@ export default function App() {
             <div className="hero-halo" />
             <motion.img
               className="hero-generated-media"
-              src="/media/hero-signature.webp"
+              src={asset("media/hero-signature.webp")}
               alt="Яркий фирменный напиток Дринкит"
               role="button"
               tabIndex={0}
@@ -254,7 +256,7 @@ export default function App() {
             >
               <motion.img
                 className="phone-app-image"
-                src="/media/drinkit-app-phone.png"
+                src={asset("media/drinkit-app-phone.png")}
                 alt="Приложение Дринкит на экране телефона"
                 role="button"
                 tabIndex={0}
@@ -351,8 +353,8 @@ export default function App() {
               preload="metadata"
               aria-label="Анимация приложения Дринкит с настройками напитка"
             >
-              <source src="/media/builder-mockup.webm" type="video/webm" />
-              <source src="/media/builder-mockup.mp4" type="video/mp4" />
+              <source src={asset("media/builder-mockup.webm")} type="video/webm" />
+              <source src={asset("media/builder-mockup.mp4")} type="video/mp4" />
             </video>
           </div>
         </section>
@@ -360,7 +362,7 @@ export default function App() {
         <section className="space" id="пространство">
           <div className="space-media">
             <video
-              src="/media/drinkit-space.mp4"
+              src={asset("media/drinkit-space.mp4")}
               autoPlay
               muted
               loop
@@ -387,7 +389,7 @@ export default function App() {
             <div className="coffee-map">
               <img
                 className="coffee-map-bg"
-                src="/media/world-dots.svg"
+                src={asset("media/world-dots.svg")}
                 alt="Карта мира с точками"
                 aria-hidden="true"
               />
@@ -448,7 +450,7 @@ export default function App() {
           </a>
           <video
             className={`cta-video ${ctaVideoFading ? "cta-video--fading" : ""}`}
-            src="/media/drinkit-anim.mp4"
+            src={asset("media/drinkit-anim.mp4")}
             autoPlay
             muted
             playsInline
@@ -461,7 +463,7 @@ export default function App() {
 
       <footer>
         <a className="brand" href="#начало">
-          <img className="brand-logo" src="/drinkit-logo.png" alt="" />
+          <img className="brand-logo" src={asset("drinkit-logo.png")} alt="" />
           <span>дринкит</span>
         </a>
         <p>кофейня на каждый день</p>
