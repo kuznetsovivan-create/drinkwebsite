@@ -59,6 +59,7 @@ export default function App() {
   useSmoothScroll()
   const [phoneActive, setPhoneActive] = useState(false)
   const [heroActive, setHeroActive] = useState(false)
+  const [spaceVideoReady, setSpaceVideoReady] = useState(false)
   const [ctaVideoFading, setCtaVideoFading] = useState(false)
   const pointerX = useSpring(useMotionValue(0), { stiffness: 180, damping: 22, mass: 0.7 })
   const pointerY = useSpring(useMotionValue(0), { stiffness: 180, damping: 22, mass: 0.7 })
@@ -364,18 +365,21 @@ export default function App() {
         <section className="space" id="пространство">
           <div className="space-media">
             <video
+              className={spaceVideoReady ? "space-video space-video--ready" : "space-video"}
               src={asset("media/drinkit-space.mp4")}
               autoPlay
               muted
               loop
               playsInline
+              preload="auto"
               aria-label="Интерьер технологичной кофейни Дринкит"
-              onError={(event) => { event.currentTarget.style.display = "none" }}
+              onCanPlay={() => setSpaceVideoReady(true)}
+              onPlaying={() => setSpaceVideoReady(true)}
+              onWaiting={() => setSpaceVideoReady(false)}
+              onLoadStart={() => setSpaceVideoReady(false)}
+              onError={() => setSpaceVideoReady(false)}
             />
-            <div className="space-fallback">
-              <div className="steel-counter"><span>уже готово</span><i /><i /><i /><i /></div>
-              <div className="light-object" />
-            </div>
+            {!spaceVideoReady && <div className="space-video-loader" role="status" aria-label="Видео загружается" />}
             <div className="space-overlay">
               <p className="eyebrow">04 / место встречи</p>
               <h2>кофейня,<br />где будущее<br />уже наступило.</h2>
@@ -389,37 +393,45 @@ export default function App() {
             </div>
 
             <div className="coffee-map">
-              <img
-                className="coffee-map-bg"
-                src={asset("media/world-dots.svg")}
-                alt="Карта мира с точками"
-                aria-hidden="true"
-              />
-              <div className="coffee-map-halo" aria-hidden="true" />
-              {coffeeCities.map((city) => (
+              <div className="coffee-map-visual">
+                <img
+                  className="coffee-map-bg"
+                  src={asset("media/world-dots.svg")}
+                  alt="Карта мира с точками"
+                  aria-hidden="true"
+                />
+                <div className="coffee-map-halo" aria-hidden="true" />
+                {coffeeCities.map((city) => (
+                  <button
+                    type="button"
+                    className={`map-pin ${city.featured ? "map-pin--featured" : ""}`}
+                    style={{ left: `${city.x}%`, top: `${city.y}%` }}
+                    key={city.name}
+                    aria-label={`${city.name}: ${city.count} кофеен`}
+                  >
+                    <span className="map-pin-dot" />
+                    <span className="map-pin-tip">
+                      {city.name} <strong>({city.count})</strong>
+                    </span>
+                  </button>
+                ))}
+
                 <button
                   type="button"
-                  className={`map-pin ${city.featured ? "map-pin--featured" : ""}`}
-                  style={{ left: `${city.x}%`, top: `${city.y}%` }}
-                  key={city.name}
-                  aria-label={`${city.name}: ${city.count} кофеен`}
+                  className="map-pin map-pin--muted"
+                  style={{ left: `${independentPoint.x}%`, top: `${independentPoint.y}%` }}
+                  aria-label={`${independentPoint.name}: ${independentPoint.label}`}
                 >
                   <span className="map-pin-dot" />
-                  <span className="map-pin-tip">
-                    {city.name} <strong>({city.count})</strong>
-                  </span>
+                  <span className="map-pin-label">{independentPoint.label}</span>
                 </button>
-              ))}
+              </div>
 
-              <button
-                type="button"
-                className="map-pin map-pin--muted"
-                style={{ left: `${independentPoint.x}%`, top: `${independentPoint.y}%` }}
-                aria-label={`${independentPoint.name}: ${independentPoint.label}`}
-              >
-                <span className="map-pin-dot" />
-                <span className="map-pin-label">{independentPoint.label}</span>
-              </button>
+              <div className="map-city-list" aria-label="Города и количество кофеен">
+                {coffeeCities.map((city) => (
+                  <div key={city.name}><span>{city.name}</span><strong>{city.count}</strong></div>
+                ))}
+              </div>
 
               <div className="map-notes" aria-label="Планы роста">
                 {mapNotes.map((note) => (
