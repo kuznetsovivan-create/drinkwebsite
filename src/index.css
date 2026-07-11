@@ -144,7 +144,7 @@ html.lenis, html.lenis body { height: auto; }
 .running-line i { font-style: normal; }
 
 .section-pad { padding: clamp(100px, 12vw, 190px) var(--pad); }
-.section-intro h2, .builder-heading h2, .space h2, .community h2 {
+.section-intro h2, .builder-heading h2, .space h2 {
   margin: 22px 0 0;
   font-size: clamp(48px, 7.3vw, 118px);
   line-height: .88;
@@ -152,7 +152,7 @@ html.lenis, html.lenis body { height: auto; }
   font-weight: 900;
   text-transform: lowercase;
 }
-.section-intro .eyebrow, .builder-heading .eyebrow, .community .eyebrow { color: var(--blue); }
+.section-intro .eyebrow, .builder-heading .eyebrow { color: var(--blue); }
 
 .ritual { background: var(--paper); }
 .ritual-layout { display: grid; grid-template-columns: .95fr 1.05fr; gap: clamp(55px, 10vw, 170px); align-items: center; margin-top: 100px; }
@@ -340,14 +340,6 @@ html.lenis, html.lenis body { height: auto; }
   100% { opacity: 0; transform: scale(1.6); }
 }
 
-.community { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; background: var(--lime); }
-.community-title h2 span { color: var(--blue); }
-.community-notes { border-top: 2px solid var(--ink); align-self: end; }
-.community-notes article { display: grid; grid-template-columns: 40px 1fr 1.2fr; gap: 18px; align-items: baseline; padding: 30px 0; border-bottom: 2px solid var(--ink); }
-.community-notes span { font-size: 10px; font-weight: 900; }
-.community-notes h3 { margin: 0; font-size: 30px; letter-spacing: -.015em; }
-.community-notes p { margin: 0; font-size: 12px; line-height: 1.45; }
-
 .final-cta { position: relative; min-height: auto; display: grid; grid-template-columns: minmax(0, .9fr) minmax(320px, 1.1fr); place-items: center; align-content: center; gap: clamp(30px, 5vw, 80px); overflow: hidden; background: var(--blue); color: white; text-align: left; padding: 100px var(--pad) 0; }
 .final-cta::before { content: ""; position: absolute; width: 54vw; height: 54vw; border: 1px solid rgba(255,255,255,.16); border-radius: 50%; box-shadow: 0 0 0 12vw rgba(255,255,255,.04), 0 0 0 24vw rgba(255,255,255,.03); }
 .final-cta > h2, .final-cta > a { grid-column: 1; justify-self: start; }
@@ -373,13 +365,12 @@ footer small { grid-column: 1 / -1; padding-top: 35px; border-top: 1px solid rgb
   .hero-copy { align-self: auto; padding-bottom: 0; }
   .hero-object { height: 680px; }
   .hero-status { display: none; }
-  .ritual-layout, .section-intro--split, .community { grid-template-columns: 1fr; }
+  .ritual-layout, .section-intro--split { grid-template-columns: 1fr; }
   .phone-scene { min-height: 630px; }
   .drink-grid { grid-template-columns: 1fr 1fr; }
   .drink-card:last-child { grid-column: 1 / -1; }
   .builder-stage { grid-template-columns: 1fr; }
   .builder-mockup { width: min(100%, 720px); }
-  .community-notes { margin-top: 20px; }
   .coffee-map { margin-top: 50px; }
   .map-notes { font-size: clamp(20px, 3.8vw, 38px); }
 }
@@ -398,7 +389,7 @@ footer small { grid-column: 1 / -1; padding-top: 35px; border-top: 1px solid rgb
   .orbit--two { right: -5%; }
   .orbit--three { right: -2%; bottom: 13%; }
   .section-pad { padding-block: 100px; }
-  .section-intro h2, .builder-heading h2, .community h2 { font-size: 50px; }
+  .section-intro h2, .builder-heading h2 { font-size: 50px; }
   .ritual-layout { margin-top: 60px; }
   .phone-scene { min-height: 500px; }
   .phone-app-image { width: 88%; }
@@ -426,9 +417,6 @@ footer small { grid-column: 1 / -1; padding-top: 35px; border-top: 1px solid rgb
   .map-pin-label { font-size: 8px; top: calc(100% + 5px); }
   .map-notes { left: 62%; top: 60%; width: 32%; font-size: clamp(12px, 3.7vw, 22px); line-height: .92; }
   .coffee-map-halo { width: 42%; }
-  .community { gap: 55px; }
-  .community-notes article { grid-template-columns: 30px 1fr; }
-  .community-notes p { grid-column: 2; }
   .final-cta h2 { font-size: clamp(42px, 13vw, 70px); }
   .final-cta { grid-template-columns: 1fr; gap: 0; text-align: center; }
   .final-cta > h2, .final-cta > a { grid-column: 1; justify-self: center; }
@@ -474,7 +462,7 @@ body { font-family: "ABCFavorit", "Segoe UI", Helvetica, Arial, sans-serif; }
 .hero-grid { opacity: .55; background-image: linear-gradient(#d0d5dd 1px, transparent 1px), linear-gradient(90deg, #d0d5dd 1px, transparent 1px); }
 .hero .eyebrow, .hero-bottom p { color: #6b7380; }
 .hero h1 { font-weight: 500; line-height: .86; }
-.hero h1 > span:last-child, .section-intro .eyebrow, .builder-heading .eyebrow, .community .eyebrow { color: var(--blue); }
+.hero h1 > span:last-child, .section-intro .eyebrow, .builder-heading .eyebrow { color: var(--blue); }
 .primary-button { background: var(--blue); color: var(--white); font-weight: 600; }
 .primary-button:hover { background: var(--blue-dark); color: var(--white); }
 .hero-halo { background: var(--paper); box-shadow: 0 0 0 42px rgba(24,45,168,.06), inset -70px -45px 100px rgba(24,45,168,.08); }
@@ -487,7 +475,7 @@ body { font-family: "ABCFavorit", "Segoe UI", Helvetica, Arial, sans-serif; }
 
 .running-line { background: var(--blue); color: var(--white); border: 0; transform: none; }
 .ritual { background: var(--white); }
-.section-intro h2, .builder-heading h2, .space h2, .community h2 { font-weight: 500; line-height: .95; }
+.section-intro h2, .builder-heading h2, .space h2 { font-weight: 500; line-height: .95; }
 .phone-scene { border-radius: 80px; background: var(--paper); }
 .phone-app-image { filter: drop-shadow(0 35px 28px rgba(20,22,31,.16)); }
 .phone-bubble { border: 1px solid var(--line); background: var(--white); font-weight: 600; }
@@ -515,13 +503,6 @@ body { font-family: "ABCFavorit", "Segoe UI", Helvetica, Arial, sans-serif; }
 .space-media { border-radius: 80px; }
 .space-media::after { background: linear-gradient(90deg, rgba(20,22,31,.72), transparent 70%); }
   .space-overlay .eyebrow { color: transparent; }
-
-.community { background: var(--paper); }
-.community-title h2 span { color: var(--blue); }
-.community-notes { border-color: var(--line); }
-.community-notes article { border-color: var(--line); }
-.community-notes h3 { font-weight: 500; }
-.community-notes p { color: #6b7380; }
 
 .final-cta { background: #b6d4f0; color: var(--ink); }
 .final-cta::before { display: none; }

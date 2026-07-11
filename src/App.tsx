@@ -431,18 +431,6 @@ export default function App() {
           </div>
         </section>
 
-        <section className="community section-pad">
-          <div className="community-title">
-            <p className="eyebrow">06 / больше чем кофе</p>
-            <h2>твой город.<br />твой ритм.<br /><span>твой дринкит.</span></h2>
-          </div>
-          <div className="community-notes">
-            <article><span>01</span><h3>бежим</h3><p>Утренние пробежки, друзья и первый кофе дня.</p></article>
-            <article><span>02</span><h3>слушаем</h3><p>Рейвы, диджей-сеты и напитки из экспериментального меню.</p></article>
-            <article><span>03</span><h3>пробуем</h3><p>Каппинги и дегустации для тех, кому интересно больше.</p></article>
-          </div>
-        </section>
-
         <section className="final-cta">
           <h2>кажется, пора<br />выпить<br />что-нибудь<br /><span>своё.</span></h2>
           <a href="https://guest.drinkit.ru/ru" target="_blank" rel="noreferrer">
