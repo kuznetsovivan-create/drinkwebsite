@@ -444,7 +444,7 @@ footer small { grid-column: 1 / -1; padding-top: 35px; border-top: 1px solid rgb
 /* Drinkit brand system */
 body { font-family: "ABCFavorit", "Segoe UI", Helvetica, Arial, sans-serif; }
 .topbar {
-  position: fixed;
+  position: absolute;
   color: var(--ink);
   border-bottom: 1px solid rgba(20, 22, 31, .08);
   overflow: hidden;
