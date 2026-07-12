@@ -126,8 +126,7 @@ html.lenis, html.lenis body { height: auto; }
   background: var(--orange);
   box-shadow: 0 0 0 42px rgba(255,255,255,.07), inset -70px -45px 100px rgba(118, 22, 0, .28);
 }
-.hero-generated-media { position: absolute; z-index: 3; width: 77%; height: 84%; object-fit: contain; cursor: grab; transform-style: preserve-3d; will-change: transform; filter: drop-shadow(0 45px 35px rgba(16,14,64,.38)); animation: drink-float 5.5s ease-in-out infinite; }
-.hero-generated-media:hover { cursor: grabbing; }
+.hero-generated-media { position: absolute; z-index: 3; width: 77%; height: 84%; object-fit: contain; transform-style: preserve-3d; will-change: transform; filter: drop-shadow(0 45px 35px rgba(16,14,64,.38)); animation: drink-float 5.5s ease-in-out infinite; }
 .hero-generated-media:focus-visible { outline: 3px solid var(--blue); outline-offset: 10px; border-radius: 50%; }
 .orbit { position: absolute; z-index: 5; padding: 11px 15px; border-radius: 99px; background: white; color: var(--ink); font-size: 10px; font-weight: 800; box-shadow: 0 8px 30px rgba(0,0,0,.14); animation: bob 4s ease-in-out infinite; }
 .orbit--one { left: 2%; top: 34%; transform: rotate(-8deg); }
@@ -157,8 +156,7 @@ html.lenis, html.lenis body { height: auto; }
 .ritual { background: var(--paper); }
 .ritual-layout { display: grid; grid-template-columns: .95fr 1.05fr; gap: clamp(55px, 10vw, 170px); align-items: center; margin-top: 100px; }
 .phone-scene { position: relative; display: grid; place-items: center; min-height: 700px; border-radius: 50% 50% 45% 55%; background: var(--pink); perspective: 900px; touch-action: pan-y; }
-.phone-app-image { display: block; width: min(447px, 88%); height: auto; object-fit: contain; cursor: grab; transform-style: preserve-3d; will-change: transform; filter: drop-shadow(0 35px 28px rgba(20,22,31,.22)); }
-.phone-app-image:hover { cursor: grabbing; }
+.phone-app-image { display: block; width: min(447px, 88%); height: auto; object-fit: contain; transform-style: preserve-3d; will-change: transform; filter: drop-shadow(0 35px 28px rgba(20,22,31,.22)); }
 .phone-app-image:focus-visible { outline: 3px solid var(--blue); outline-offset: 8px; border-radius: 28px; }
 .phone-bubble { position: absolute; padding: 13px 16px; border: 2px solid var(--ink); border-radius: 99px; background: var(--lime); font-size: 11px; font-weight: 900; }
 .phone-bubble--first { left: 5%; top: 22%; transform: rotate(-12deg); }
