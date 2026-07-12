@@ -149,7 +149,7 @@ export default function App() {
           <a href="#лаборатория">напитки</a>
           <a href="#пространство">кофейни</a>
         </nav>
-        <a className="nav-order" href="#собрать">
+        <a className="nav-order" href="https://guest.drinkit.ru/ru" target="_blank" rel="noreferrer">
           собрать свой <span>↗</span>
         </a>
       </header>

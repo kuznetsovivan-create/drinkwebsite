@@ -24,6 +24,7 @@ export function useSmoothScroll() {
       wheelMultiplier: 1,
       touchMultiplier: 1.4,
       syncTouch: true,
+      anchors: true,
     })
 
     // Drive Lenis from GSAP's ticker for frame-perfect sync

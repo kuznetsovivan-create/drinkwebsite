@@ -16,7 +16,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: auto; background: var(--paper); }
+html { scroll-behavior: smooth; background: var(--paper); }
 body {
   margin: 0;
   min-width: 320px;
