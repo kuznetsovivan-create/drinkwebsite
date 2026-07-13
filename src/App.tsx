@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
+import { MotionConfig, motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion"
 import { useSmoothScroll } from "./hooks/useSmoothScroll"
 
 const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`
@@ -57,10 +57,14 @@ const tickerItems = ["быстрее очереди", "точно как люб�
 
 export default function App() {
   useSmoothScroll()
+  const prefersReducedMotion = useReducedMotion() ?? false
   const [phoneActive, setPhoneActive] = useState(false)
   const [heroActive, setHeroActive] = useState(false)
+  const [activeCity, setActiveCity] = useState(coffeeCities[0])
+  const [spaceVideoEnabled, setSpaceVideoEnabled] = useState(false)
   const [spaceVideoReady, setSpaceVideoReady] = useState(false)
   const [ctaVideoFading, setCtaVideoFading] = useState(false)
+  const spaceRef = useRef<HTMLElement>(null)
   const pointerX = useSpring(useMotionValue(0), { stiffness: 180, damping: 22, mass: 0.7 })
   const pointerY = useSpring(useMotionValue(0), { stiffness: 180, damping: 22, mass: 0.7 })
   const phoneX = useTransform(pointerX, [-1, 1], [-14, 14])
@@ -137,8 +141,23 @@ export default function App() {
     void video.play()
   }
 
+  useEffect(() => {
+    const node = spaceRef.current
+    if (!node) return
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return
+      setSpaceVideoEnabled(true)
+      observer.disconnect()
+    }, { rootMargin: "320px 0px" })
+
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <div className="site-shell">
+    <MotionConfig reducedMotion={prefersReducedMotion ? "always" : "never"}>
+      <div className="site-shell">
       <header className="topbar">
         <a className="brand" href="#начало" aria-label="Дринкит — на главную">
           <img className="brand-logo" src={asset("drinkit-logo.png")} alt="" />
@@ -316,9 +335,12 @@ export default function App() {
 
           <div className="drink-grid">
             {drinks.map((drink, index) => (
-              <motion.article
+              <motion.a
                 className={`drink-card ${drink.className}`}
                 key={drink.name}
+                href="https://guest.drinkit.ru/ru"
+                target="_blank"
+                rel="noreferrer"
                 initial={{ opacity: 0, y: 48 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
@@ -335,7 +357,7 @@ export default function App() {
                 <h3>{drink.name}</h3>
                 <p>{drink.note}</p>
                 <span className="card-arrow">↗</span>
-              </motion.article>
+              </motion.a>
             ))}
           </div>
         </section>
@@ -343,7 +365,7 @@ export default function App() {
         <section className="builder section-pad" id="собрать">
           <div className="builder-heading">
             <p className="eyebrow">03 / собери свой</p>
-            <h2>один латте.<br /><span><CountUp to={9216} /></span> вариантов.</h2>
+            <h2>один латте.<br /><span><CountUp to={9216} reduceMotion={prefersReducedMotion} /></span> вариантов.</h2>
           </div>
 
           <div className="builder-stage">
@@ -362,16 +384,16 @@ export default function App() {
           </div>
         </section>
 
-        <section className="space" id="пространство">
+        <section className="space" id="пространство" ref={spaceRef}>
           <div className="space-media">
             <video
               className={spaceVideoReady ? "space-video space-video--ready" : "space-video"}
-              src={asset("media/drinkit-space.mp4")}
+              src={spaceVideoEnabled ? asset("media/drinkit-space.mp4") : undefined}
               autoPlay
               muted
               loop
               playsInline
-              preload="auto"
+              preload={spaceVideoEnabled ? "metadata" : "none"}
               aria-label="Интерьер технологичной кофейни Дринкит"
               onCanPlay={() => setSpaceVideoReady(true)}
               onPlaying={() => setSpaceVideoReady(true)}
@@ -379,7 +401,7 @@ export default function App() {
               onLoadStart={() => setSpaceVideoReady(false)}
               onError={() => setSpaceVideoReady(false)}
             />
-            {!spaceVideoReady && <div className="space-video-loader" role="status" aria-label="Видео загружается" />}
+            {spaceVideoEnabled && !spaceVideoReady && <div className="space-video-loader" role="status" aria-label="Видео загружается" />}
             <div className="space-overlay">
               <p className="eyebrow">04 / место встречи</p>
               <h2>кофейня,<br />где будущее<br />уже наступило.</h2>
@@ -404,10 +426,12 @@ export default function App() {
                 {coffeeCities.map((city) => (
                   <button
                     type="button"
-                    className={`map-pin ${city.featured ? "map-pin--featured" : ""}`}
+                    className={`map-pin ${city.featured ? "map-pin--featured" : ""} ${activeCity.name === city.name ? "map-pin--active" : ""}`}
                     style={{ left: `${city.x}%`, top: `${city.y}%` }}
                     key={city.name}
                     aria-label={`${city.name}: ${city.count} кофеен`}
+                    aria-pressed={activeCity.name === city.name}
+                    onClick={() => setActiveCity(city)}
                   >
                     <span className="map-pin-dot" />
                     <span className="map-pin-tip">
@@ -427,15 +451,27 @@ export default function App() {
                 </button>
               </div>
 
+              <div className="map-selection" role="status" aria-live="polite">
+                <span>выбранный город</span>
+                <strong>{activeCity.name} <b>{activeCity.count}</b></strong>
+              </div>
+
               <div className="map-city-list" aria-label="Города и количество кофеен">
                 {coffeeCities.map((city) => (
-                  <div key={city.name}><span>{city.name}</span><strong>{city.count}</strong></div>
+                  <button
+                    type="button"
+                    key={city.name}
+                    aria-pressed={activeCity.name === city.name}
+                    onClick={() => setActiveCity(city)}
+                  >
+                    <span>{city.name}</span><strong>{city.count}</strong>
+                  </button>
                 ))}
               </div>
 
               <div className="map-notes" aria-label="Планы роста">
                 {mapNotes.map((note) => (
-                  <span key={note.label}><CountUp to={note.value} suffix={note.suffix} /> {note.label}</span>
+                  <span key={note.label}><CountUp to={note.value} suffix={note.suffix} reduceMotion={prefersReducedMotion} /> {note.label}</span>
                 ))}
               </div>
             </div>
@@ -469,15 +505,21 @@ export default function App() {
         <div><a href="#лаборатория">напитки</a><a href="#пространство">кофейни</a><a href="https://guest.drinkit.ru/ru">приложение</a></div>
         <small>концепт-сайт · {new Date().getFullYear()}</small>
       </footer>
-    </div>
+      </div>
+    </MotionConfig>
   )
 }
 
-function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
+function CountUp({ to, suffix = "", reduceMotion = false }: { to: number; suffix?: string; reduceMotion?: boolean }) {
   const [value, setValue] = useState(0)
   const ref = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
+    if (reduceMotion) {
+      setValue(to)
+      return
+    }
+
     const node = ref.current
     if (!node) return
 
@@ -502,7 +544,7 @@ function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
       observer.disconnect()
       cancelAnimationFrame(frame)
     }
-  }, [to])
+  }, [to, reduceMotion])
 
   return <span ref={ref}>{new Intl.NumberFormat("ru-RU").format(value)}{suffix}</span>
 }
